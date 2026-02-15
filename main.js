@@ -253,3 +253,107 @@ loader.load(
         syncTextRotation();
     }
 );
+// ======================================
+// PREMIUM RENDER SETTINGS
+// ======================================
+
+// Better tone mapping
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.25;
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+// Soft shadow improvements
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+// ======================================
+// GLOW RING EFFECT
+// ======================================
+
+const glowGeometry = new THREE.RingGeometry(HEX_RADIUS * 1.05, HEX_RADIUS * 1.25, 64);
+const glowMaterial = new THREE.MeshBasicMaterial({
+    color: 0xE8752A,
+    transparent: true,
+    opacity: 0.15,
+    side: THREE.DoubleSide
+});
+
+const glowRing = new THREE.Mesh(glowGeometry, glowMaterial);
+glowRing.rotation.x = Math.PI / 2;
+glowRing.position.y = 0;
+scene.add(glowRing);
+
+// Pulsing animation
+let glowClock = 0;
+
+// ======================================
+// SMOOTH INERTIA SYSTEM
+// ======================================
+
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+let velocity = { x: 0, y: 0 };
+
+canvas.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+
+window.addEventListener("mouseup", () => {
+    isDragging = false;
+});
+
+window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    const deltaMove = {
+        x: e.clientX - previousMousePosition.x,
+        y: e.clientY - previousMousePosition.y
+    };
+
+    velocity.x = deltaMove.y * 0.003;
+    velocity.y = deltaMove.x * 0.003;
+
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+
+// ======================================
+// LIGHT UPGRADE
+// ======================================
+
+// Stronger key light
+keyLight.intensity = 2.8;
+
+// Add subtle hemisphere light
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x222222, 0.6);
+scene.add(hemiLight);
+
+// ======================================
+// ANIMATION LOOP UPGRADE
+// ======================================
+
+function premiumAnimate() {
+
+    requestAnimationFrame(premiumAnimate);
+
+    glowClock += 0.02;
+
+    // Glow pulse
+    glowMaterial.opacity = 0.12 + Math.sin(glowClock) * 0.05;
+
+    if (!isDragging) {
+        // Decay velocity
+        velocity.x *= 0.95;
+        velocity.y *= 0.95;
+    }
+
+    hexMesh.rotation.x += velocity.x;
+    hexMesh.rotation.y += velocity.y;
+
+    glowRing.rotation.y += velocity.y;
+    glowRing.rotation.x = Math.PI / 2;
+
+    renderer.render(scene, camera);
+}
+
+premiumAnimate();
