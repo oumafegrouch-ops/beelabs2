@@ -204,4 +204,408 @@ footer{
 </style>
 </head>
 <body>
+<!-- ============================= -->
+<!-- NAVIGATION -->
+<!-- ============================= -->
+
+<nav>
+  <div class="logo">
+    BEE<span>LABS</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="#studio">STUDIO</a>
+    <a href="#work">WORK</a>
+    <a href="#process">PROCESS</a>
+    <a href="#contact">CONTACT</a>
+  </div>
+</nav>
+
+
+<!-- ============================= -->
+<!-- HERO SECTION -->
+<!-- ============================= -->
+
+<section class="hero">
+
+  <div class="hero-text">
+    <h1>
+      SPATIAL <br>
+      <span>INTELLIGENCE</span><br>
+      FOR DESIGN
+    </h1>
+
+    <p>
+      BEELABS is a spatial design and research studio operating at the intersection 
+      of architecture, digital twin systems, and high-end visualization.
+      We translate complex spatial thinking into clear visual impact.
+    </p>
+  </div>
+
+  <!-- 3D CONTAINER -->
+  <div class="hero-3d">
+    <canvas id="hexCanvas"></canvas>
+  </div>
+
+</section>
+<!-- ============================= -->
+<!-- STUDIO -->
+<!-- ============================= -->
+
+<section id="studio">
+
+  <div class="section-title">
+    RESEARCH DRIVEN <span>SPATIAL THINKING</span>
+  </div>
+
+  <div class="section-text">
+    Founded by Oumayma Fegrouch — architect and PhD researcher in Digital Twins.
+    BEELABS explores spatial systems, 3D modelling, and computational design
+    through a rigorous research-based methodology.
+  </div>
+
+  <!-- Honeycomb Diagram -->
+  <div style="margin-top:60px; display:flex; justify-content:center;">
+    <svg width="420" height="360" viewBox="0 0 420 360" fill="none">
+
+      <!-- Center -->
+      <polygon points="210,120 260,150 260,210 210,240 160,210 160,150"
+        stroke="#E8752A" stroke-width="2" fill="rgba(232,117,42,.08)"/>
+
+      <!-- Surrounding hexagons -->
+      <polygon points="210,40 260,70 260,130 210,160 160,130 160,70"
+        stroke="#E8752A" stroke-width="1" fill="none"/>
+
+      <polygon points="330,120 380,150 380,210 330,240 280,210 280,150"
+        stroke="#E8752A" stroke-width="1" fill="none"/>
+
+      <polygon points="90,120 140,150 140,210 90,240 40,210 40,150"
+        stroke="#E8752A" stroke-width="1" fill="none"/>
+
+      <polygon points="210,200 260,230 260,290 210,320 160,290 160,230"
+        stroke="#E8752A" stroke-width="1" fill="none"/>
+
+    </svg>
+  </div>
+
+</section>
+
+
+<!-- ============================= -->
+<!-- WORK (INTENTIONALLY EMPTY) -->
+<!-- ============================= -->
+
+<section id="work">
+
+  <div class="section-title">
+    SELECTED <span>WORK</span>
+  </div>
+
+  <div class="section-text">
+    Current projects are in development.
+    Work will be published soon.
+  </div>
+
+</section>
+
+
+<!-- ============================= -->
+<!-- PROCESS -->
+<!-- ============================= -->
+
+<section id="process">
+
+  <div class="section-title">
+    WORK <span>PROCESS</span>
+  </div>
+
+  <div class="section-text">
+
+    <p style="margin-bottom:20px;">
+      01 — Research & Analysis
+    </p>
+
+    <p style="margin-bottom:20px;">
+      02 — Spatial Strategy Development
+    </p>
+
+    <p style="margin-bottom:20px;">
+      03 — 3D Modeling & Simulation
+    </p>
+
+    <p>
+      04 — Precision Delivery
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ============================= -->
+<!-- CONTACT -->
+<!-- ============================= -->
+
+<section id="contact">
+
+  <div class="section-title">
+    CONTACT <span>BEELABS</span>
+  </div>
+
+  <div class="section-text">
+    Oumayma Fegrouch <br>
+    Founder & PhD Researcher <br><br>
+
+    Enschede — Netherlands <br>
+    Working Globally <br><br>
+
+    <a href="mailto:emma@beelabs.nl" style="color:#E8752A; text-decoration:none;">
+      emma@beelabs.nl
+    </a>
+    <br><br>
+
+    <a href="https://calendly.com/ouma-fegrouch/30min"
+       target="_blank"
+       style="color:#E8752A; text-decoration:none;">
+       Book a 30min Meeting
+    </a>
+
+  </div>
+
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+/* ===================================================== */
+/* CURSOR CUSTOM */
+/* ===================================================== */
+
+const cr=document.getElementById('cr');
+const cr2=document.getElementById('cr2');
+
+let mx=0,my=0,fx=0,fy=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cr.style.left=mx+'px';
+  cr.style.top=my+'px';
+});
+
+(function loop(){
+  fx+=(mx-fx)*.15;
+  fy+=(my-fy)*.15;
+  cr2.style.left=fx+'px';
+  cr2.style.top=fy+'px';
+  requestAnimationFrame(loop);
+})();
+
+
+/* ===================================================== */
+/* INTRO ANIMATION + SOUND */
+/* ===================================================== */
+
+window.addEventListener("load",()=>{
+
+  const intro=document.getElementById("intro");
+  const site=document.getElementById("site");
+
+  setTimeout(()=>{
+
+    /* ---- Bee Sound ---- */
+
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+
+    osc.type="sawtooth";
+    osc.frequency.value=220;
+
+    gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.2,ctx.currentTime+0.2);
+    gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+2);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime+2);
+
+    /* ---- Hide intro ---- */
+
+    intro.style.opacity="0";
+    setTimeout(()=>{
+      intro.style.display="none";
+      site.style.opacity="1";
+    },1000);
+
+  },3500);
+
+});
+
+
+/* ===================================================== */
+/* 3D HEXAGON — PREMIUM VERSION */
+/* ===================================================== */
+
+const container=document.getElementById("heroRight");
+const canvas=document.getElementById("hexCanvas");
+
+if(container && canvas){
+
+  const renderer=new THREE.WebGLRenderer({
+    canvas,
+    antialias:true,
+    alpha:true
+  });
+
+  const W=container.clientWidth;
+  const H=container.clientHeight;
+
+  renderer.setSize(W,H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+
+  const scene=new THREE.Scene();
+
+  const camera=new THREE.PerspectiveCamera(45,W/H,0.1,100);
+  camera.position.z=6;
+
+  /* ---- Geometry ---- */
+
+  const geo=new THREE.CylinderGeometry(2,2,0.8,6,1,false);
+
+  const material=new THREE.MeshStandardMaterial({
+    color:0x1a1d24,
+    roughness:0.25,
+    metalness:0.8
+  });
+
+  const mesh=new THREE.Mesh(geo,material);
+  mesh.rotation.x=Math.PI/2;
+  scene.add(mesh);
+
+  /* ---- Wireframe ---- */
+
+  const edges=new THREE.EdgesGeometry(geo);
+  const line=new THREE.LineSegments(
+    edges,
+    new THREE.LineBasicMaterial({
+      color:0xE8752A,
+      transparent:true,
+      opacity:0.7
+    })
+  );
+
+  line.rotation.x=Math.PI/2;
+  scene.add(line);
+
+  /* ---- BEELABS engraved effect ---- */
+
+  const loader=new THREE.FontLoader();
+
+  loader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",font=>{
+
+    const textGeo=new THREE.TextGeometry("BEELABS",{
+      font:font,
+      size:0.35,
+      height:0.05
+    });
+
+    const textMat=new THREE.MeshStandardMaterial({
+      color:0xE8752A,
+      metalness:1,
+      roughness:0.2
+    });
+
+    const textMesh=new THREE.Mesh(textGeo,textMat);
+    textMesh.rotation.x=Math.PI/2;
+    textMesh.position.set(-1.2,-0.2,0.41);
+
+    scene.add(textMesh);
+  });
+
+  /* ---- Lighting ---- */
+
+  const keyLight=new THREE.DirectionalLight(0xffffff,2);
+  keyLight.position.set(4,5,5);
+  scene.add(keyLight);
+
+  const rimLight=new THREE.DirectionalLight(0xE8752A,1.8);
+  rimLight.position.set(-5,-2,-2);
+  scene.add(rimLight);
+
+  scene.add(new THREE.AmbientLight(0x111111,1));
+
+  /* ---- Interaction ---- */
+
+  let isDragging=false;
+  let prevX=0,prevY=0;
+  let velX=0,velY=0;
+  let targetX=0.3,targetY=0;
+  let rotX=0.3,rotY=0;
+
+  canvas.addEventListener("mousedown",e=>{
+    isDragging=true;
+    prevX=e.clientX;
+    prevY=e.clientY;
+  });
+
+  window.addEventListener("mouseup",()=>isDragging=false);
+
+  window.addEventListener("mousemove",e=>{
+    if(!isDragging)return;
+    const dx=e.clientX-prevX;
+    const dy=e.clientY-prevY;
+    targetY+=dx*0.01;
+    targetX+=dy*0.01;
+    velX=dx*0.002;
+    velY=dy*0.002;
+    prevX=e.clientX;
+    prevY=e.clientY;
+  });
+
+  /* ---- Animation Loop ---- */
+
+  function animate(){
+    requestAnimationFrame(animate);
+
+    if(!isDragging){
+      targetY+=0.003;
+      targetX+=velY;
+      targetY+=velX;
+      velX*=0.92;
+      velY*=0.92;
+    }
+
+    rotX+=(targetX-rotX)*0.08;
+    rotY+=(targetY-rotY)*0.08;
+
+    mesh.rotation.x=Math.PI/2+rotX;
+    mesh.rotation.z=rotY;
+
+    line.rotation.x=Math.PI/2+rotX;
+    line.rotation.z=rotY;
+
+    renderer.render(scene,camera);
+  }
+
+  animate();
+
+}
+
+
+/* ===================================================== */
+/* RESPONSIVE */
+/* ===================================================== */
+
+window.addEventListener("resize",()=>{
+  if(!container)return;
+  const W=container.clientWidth;
+  const H=container.clientHeight;
+  renderer.setSize(W,H);
+  camera.aspect=W/H;
+  camera.updateProjectionMatrix();
+});
+
+</script>
 
