@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BEELABS — Spatial / Design / Research</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+
+<style>
+
+/* ============================= */
+/* ROOT VARIABLES */
+/* ============================= */
+
+:root{
+  --bg:#0C0D10;
+  --bg2:#14161c;
+  --line:#1F2229;
+  --orange:#E8752A;
+  --orange2:#C9601A;
+  --text:#ECECEC;
+  --text-dim:#8D92A0;
+}
+
+/* ============================= */
+/* RESET */
+/* ============================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  font-family:'IBM Plex Mono', monospace;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ============================= */
+/* NAVIGATION */
+/* ============================= */
+
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 60px;
+  background:rgba(12,13,16,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  z-index:1000;
+}
+
+.logo{
+  font-family:'IBM Plex Mono', monospace;
+  letter-spacing:6px;
+  font-size:14px;
+}
+
+.logo span{
+  color:var(--orange);
+}
+
+.nav-links{
+  display:flex;
+  gap:40px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--text-dim);
+  transition:.3s;
+}
+
+.nav-links a:hover{
+  color:var(--orange);
+}
+
+/* ============================= */
+/* HERO SECTION */
+/* ============================= */
+
+.hero{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:120px 80px 80px;
+  position:relative;
+}
+
+.hero-text{
+  max-width:600px;
+}
+
+.hero-text h1{
+  font-family:'Bebas Neue', sans-serif;
+  font-size:clamp(60px,8vw,110px);
+  line-height:.9;
+  letter-spacing:2px;
+}
+
+.hero-text h1 span{
+  color:var(--orange);
+}
+
+.hero-text p{
+  margin-top:30px;
+  font-size:16px;
+  color:var(--text-dim);
+  line-height:1.8;
+  max-width:500px;
+}
+
+.hero-3d{
+  width:500px;
+  height:500px;
+  position:relative;
+}
+
+/* ============================= */
+/* SECTION GENERIC */
+/* ============================= */
+
+section{
+  padding:120px 80px;
+  border-top:1px solid var(--line);
+}
+
+.section-title{
+  font-family:'Bebas Neue', sans-serif;
+  font-size:48px;
+  margin-bottom:40px;
+}
+
+.section-title span{
+  color:var(--orange);
+}
+
+.section-text{
+  max-width:600px;
+  color:var(--text-dim);
+  line-height:1.8;
+}
+
+/* ============================= */
+/* FOOTER */
+/* ============================= */
+
+footer{
+  padding:60px 80px;
+  border-top:1px solid var(--line);
+  font-size:12px;
+  letter-spacing:2px;
+  color:var(--text-dim);
+  display:flex;
+  justify-content:space-between;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media(max-width:900px){
+  .hero{
+    flex-direction:column;
+    gap:60px;
+  }
+
+  .hero-3d{
+    width:300px;
+    height:300px;
+  }
+
+  nav{
+    padding:0 20px;
+  }
+
+  section{
+    padding:80px 20px;
+  }
+}
+
+</style>
+</head>
+<body>
 
