@@ -210,3 +210,46 @@ function animate() {
 }
 
 animate();
+// ======================================
+// TEXT ENGRAVING (BEELABS)
+// ======================================
+
+const loader = new THREE.FontLoader();
+
+loader.load(
+    'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
+    function (font) {
+
+        const textGeometry = new THREE.TextGeometry("BEELABS", {
+            font: font,
+            size: 0.55,
+            height: 0.08,
+            curveSegments: 32,
+            bevelEnabled: false
+        });
+
+        textGeometry.computeBoundingBox();
+        textGeometry.center();
+
+        const textMaterial = new THREE.MeshStandardMaterial({
+            color: 0x0c0d10,
+            metalness: 0.2,
+            roughness: 0.8
+        });
+
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+        // Position in front face and push slightly inside
+        textMesh.position.z = HEX_DEPTH / 2 - 0.15;
+
+        scene.add(textMesh);
+
+        // Sync rotation with hexagon
+        function syncTextRotation() {
+            textMesh.rotation.copy(hexMesh.rotation);
+            requestAnimationFrame(syncTextRotation);
+        }
+
+        syncTextRotation();
+    }
+);
